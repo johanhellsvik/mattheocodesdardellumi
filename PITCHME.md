@@ -312,6 +312,7 @@ Reference page: [General information about ABINIT](https://www.pdc.kth.se/softwa
 #SBATCH --ntasks-per-node=16
 #SBATCH --cpus-per-task=16
 ml PDC/23.12 elk/9.5.14-cpeGNU-23.12
+export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 export OMP_NUM_THREADS=8
 export OMP_PLACES=cores
 export OMP_PROC_BIND=false
@@ -327,7 +328,7 @@ Reference page: [General information about Elk](https://www.pdc.kth.se/software/
 
 ## How to build Elk
 
-- For maintaining and installing (new versions) of materials theory codes on Dardel, we are mainly using the EasyBuild system. To build Elk 9.2.12 under CPE 23.03, load and launch an EasyBuild with
+- For maintaining and installing (new versions) of materials theory codes on Dardel, we are mainly using the EasyBuild system. To build Elk 9.5.14 under CPE 23.12, load and launch an EasyBuild with
 
 ```
 ml PDC/23.12 easybuild-user/4.9.1
@@ -336,10 +337,10 @@ eb elk-9.5.14-cpeGNU-23.12.eb --robot
 
 - A program that has been EasyBuilt and installed on Dardel can (often) be straightforwardly ported to a build configuration for LUMI. Or vice versa, a build on LUMI can be ported for Dardel. The easyconfig build configuration for Elk on Dardel has been ported to LUMI. See and compare the easyconfigs
 
-  - Dardel [elk-9.2.12-cpeGNU-23.03.eb](https://github.com/PDC-support/PDC-SoftwareStack/blob/master/easybuild/easyconfigs/e/elk-9.2.12-cpeGNU-23.03.eb)
+  - Dardel [elk-9.5.14-cpeGNU-23.03.eb](https://github.com/PDC-support/PDC-SoftwareStack/blob/master/easybuild/easyconfigs/e/elk-9.5.14-cpeGNU-23.03.eb)
   - LUMI [Elk-8.7.10-cpeGNU-22.12.eb](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/blob/main/easybuild/easyconfigs/e/Elk/Elk-8.7.10-cpeGNU-22.12.eb)
 
-Reference page: [Installing software using EasyBuild](https://www.pdc.kth.se/support/documents/software_development/easybuild.html)
+Reference: [Installing software using EasyBuild on Dardel](https://www.pdc.kth.se/support/documents/software_development/easybuild.html)
 
 ---
 
@@ -382,6 +383,93 @@ ml cpeGNU/23.12
 ml cray-fftw
 ml libxc/6.2.2-cpeGNU-23.12
 ml wannier90/3.1.0-cpeGNU-23.12
+```
+- Build with make
+
+```
+make all
+```
+
+---
+
+## RSPt
+
+- RSPt is an all-electron full-potential linearised muffin-tin orbitals (FP-LMTO) code. Example job script for an RSPt calculation on two Dardel CPU nodes
+
+```
+#!/bin/bash
+#SBATCH -A <project name>
+#SBATCH -J jobname
+#SBATCH -p main
+#SBATCH -t 10:00:00
+#SBATCH -N 2
+#SBATCH --ntasks-per-node=128
+ml PDC/23.12
+ml rspt/20231004-cpeGNU-23.12
+echo "Script initiated at `date` on `hostname`"
+runs "srun -n 256 rspt" 1e-09 100
+echo "Script finished at `date` on `hostname`"
+```
+
+Reference page: [General information about RSPt](https://www.pdc.kth.se/software/software/RSPt/index_general.html)
+
+
+---
+
+## How to build RSPt
+
+- For maintaining and installing (new versions) of materials theory codes on Dardel, we are mainly using the EasyBuild system. To build Elk 9.2.12 under CPE 23.03, load and launch an EasyBuild with
+
+```
+ml PDC/23.12 easybuild-user/4.9.1
+eb rspt-20231004-cpeGNU-23.12.eb --robot --robot
+```
+
+- RSPt easyconfigs for Dardel and LUMI
+
+  - Dardel [rspt-20231004-cpeGNU-23.12.eb](https://github.com/PDC-support/PDC-SoftwareStack/blob/master/easybuild/easyconfigs/r/rspt-20231004-cpeGNU-23.12.eb)
+  - LUMI [RSPt-20230120-cpeGNU-22.12.eb](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/blob/main/easybuild/easyconfigs/r/RSPt/RSPt-20230120-cpeGNU-22.12.eb)
+
+Reference: [Installing software using EasyBuild on LUMI](https://docs.lumi-supercomputer.eu/software/installing/easybuild/)
+
+---
+
+### Path for installation, generated RSPTmake.inc file
+
+- Where is the program installed?
+
+```
+~/.local/easybuild/software/rspt/20231004-cpeGNU-23.12/
+```
+- Inspect the ``RSPTmake.inc``
+
+```
+cat ~/.local/easybuild/software/rspt/20231004-cpeGNU-23.12/RSPTmake.inc
+
+FCOMPILER = ftn
+FCOMPILERFLAGS   = -O3 -march=native -mtune=native -mfma -mavx2 -m3dnow -fomit-frame-pointer -ffree-line-length-0 -fallow-argument-mismatch
+FCPPFLAGS        = -DMPI -DMEMORY_STORE -fallow-argument-mismatch
+F90COMPILER      = ftn
+F90COMPILERFLAGS =  -ffree-form
+CCOMPILER        = ftn
+CCOMPILERFLAGS   = -O3 -march=native -mtune=native -mfma -mavx2 -m3dnow -fomit-frame-pointer
+CPPFLAGS         = -DMPI -DMEMORY_STORE -fallow-argument-mismatch
+EXTRALIBS        = -z muldefs
+```
+
+---
+
+### How to make custom builds?
+
+- Copy your modified RSPt code to Dardel
+- Copy the `RSPTmake.inc` from a standard RSPt build on Dardel
+- Load the Gnu toolchain and needed dependencies
+
+```
+ml PDC/23.12
+ml cpeGNU/23.12
+ml cray-libsci
+ml cray-fftw
 ```
 - Build with make
 
