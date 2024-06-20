@@ -343,6 +343,54 @@ Reference page: [Installing software using EasyBuild](https://www.pdc.kth.se/sup
 
 ---
 
+### Path for installation, generated make.inc file
+
+- Where is the program installed?
+
+```
+~/.local/easybuild/software/elk/9.5.14-cpeGNU-23.12
+```
+- Inspect the ``make.inc``
+
+```
+cat ~/.local/easybuild/software/elk/9.5.14-cpeGNU-23.12/make.inc
+
+MAKE = make
+AR = ar
+SRC_MKL = mkl_stub.f90
+SRC_OBLAS = oblas_stub.f90
+SRC_BLIS = blis_stub.f90
+SRC_FFT = zfftifc_fftw.f90 cfftifc_fftw.f90
+LIB_LIBXC = libxcf90.a libxc.a
+SRC_LIBXC = libxcf90.f90 libxcifc.f90
+LIB_W90 = libwannier.a
+F90 = ftn
+F90_OPTS = -Ofast -march=native -mtune=native -fomit-frame-pointer -fopenmp -ffpe-summary=none -fallow-argument-mismatch
+```
+
+---
+
+### How to make custom builds?
+
+- Copy your modified Elk code to Dardel
+- Copy the `make.inc` from a standard Elk build on Dardel
+- Load the Gnu toolchain and needed dependencies
+
+```
+ml PDC/23.12
+ml cpeGNU/23.12
+ml cray-fftw
+ml libxc/6.2.2-cpeGNU-23.12
+ml wannier90/3.1.0-cpeGNU-23.12
+```
+- Build with make
+
+```
+make all
+```
+
+---
+
 # Materials theory codes available on Dardel via Spack
 
 Some codes can be built and installed in your own file area using Spack. Load a Spack user module with `ml PDC/23.12 spack-user/0.21.2`.
