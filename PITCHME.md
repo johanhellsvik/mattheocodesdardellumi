@@ -418,7 +418,7 @@ Reference page: [General information about RSPt](https://www.pdc.kth.se/software
 
 ## How to build RSPt
 
-- For maintaining and installing (new versions) of materials theory codes on Dardel, we are mainly using the EasyBuild system. To build Elk 9.2.12 under CPE 23.03, load and launch an EasyBuild with
+- To build RSPt 20231004 under CPE 23.12, load and launch an EasyBuild with
 
 ```
 ml PDC/23.12 easybuild-user/4.9.1
@@ -430,7 +430,9 @@ eb rspt-20231004-cpeGNU-23.12.eb --robot --robot
   - Dardel [rspt-20231004-cpeGNU-23.12.eb](https://github.com/PDC-support/PDC-SoftwareStack/blob/master/easybuild/easyconfigs/r/rspt-20231004-cpeGNU-23.12.eb)
   - LUMI [RSPt-20230120-cpeGNU-22.12.eb](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/blob/main/easybuild/easyconfigs/r/RSPt/RSPt-20230120-cpeGNU-22.12.eb)
 
-Reference: [Installing software using EasyBuild on LUMI](https://docs.lumi-supercomputer.eu/software/installing/easybuild/)
+References:
+[Installing software using EasyBuild on LUMI](https://docs.lumi-supercomputer.eu/software/installing/easybuild/)
+[RSPt compilation instructions, Johan Jönsson](https://github.com/johanjoensson/RSPt_instructions/tree/main)
 
 ---
 
