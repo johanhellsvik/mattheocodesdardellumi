@@ -311,7 +311,7 @@ Reference page: [General information about ABINIT](https://www.pdc.kth.se/softwa
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=16
 #SBATCH --cpus-per-task=16
-ml PDC/23.12 elk/9.5.14-cpeGNU-23.12
+ml PDC/23.12 elk/10.0.15-cpeGNU-23.12
 export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 export OMP_NUM_THREADS=8
 export OMP_PLACES=cores
@@ -328,16 +328,16 @@ Reference page: [General information about Elk](https://www.pdc.kth.se/software/
 
 ## How to build Elk
 
-- For maintaining and installing (new versions) of materials theory codes on Dardel, we are mainly using the EasyBuild system. To build Elk 9.5.14 under CPE 23.12, load and launch an EasyBuild with
+- For maintaining and installing (new versions) of materials theory codes on Dardel, we are mainly using the EasyBuild system. To build Elk 10.0.15 under CPE 23.12, load and launch an EasyBuild with
 
 ```
 ml PDC/23.12 easybuild-user/4.9.1
-eb elk-9.5.14-cpeGNU-23.12.eb --robot
+eb elk-10.0.15-cpeGNU-23.12.eb --robot
 ```
 
 - A program that has been EasyBuilt and installed on Dardel can (often) be straightforwardly ported to a build configuration for LUMI. Or vice versa, a build on LUMI can be ported for Dardel. The easyconfig build configuration for Elk on Dardel has been ported to LUMI. See and compare the easyconfigs
 
-  - Dardel [elk-9.5.14-cpeGNU-23.03.eb](https://github.com/PDC-support/PDC-SoftwareStack/blob/master/easybuild/easyconfigs/e/elk-9.5.14-cpeGNU-23.03.eb)
+  - Dardel [elk-10.0.15-cpeGNU-23.12.eb](https://github.com/PDC-support/PDC-SoftwareStack/blob/master/easybuild/easyconfigs/e/elk-10.0.15-cpeGNU-23.12.eb)
   - LUMI [Elk-8.7.10-cpeGNU-22.12.eb](https://github.com/Lumi-supercomputer/LUMI-EasyBuild-contrib/blob/main/easybuild/easyconfigs/e/Elk/Elk-8.7.10-cpeGNU-22.12.eb)
 
 Reference: [Installing software using EasyBuild on Dardel](https://www.pdc.kth.se/support/documents/software_development/easybuild.html)
@@ -349,12 +349,12 @@ Reference: [Installing software using EasyBuild on Dardel](https://www.pdc.kth.s
 - Where is the program installed?
 
 ```
-~/.local/easybuild/software/elk/9.5.14-cpeGNU-23.12
+~/.local/easybuild/software/elk/10.0.15-cpeGNU-23.12
 ```
 - Inspect the ``make.inc``
 
 ```
-cat ~/.local/easybuild/software/elk/9.5.14-cpeGNU-23.12/make.inc
+cat ~/.local/easybuild/software/elk/10.0.15-cpeGNU-23.12/make.inc
 
 MAKE = make
 AR = ar
@@ -518,16 +518,16 @@ Exercise instructions: See [Submit a batch job to the queue](https://www.pdc.kth
 
 # Exercise 2: Build the most recent version of Elk
 
-As of 20240531, the most recent version of Elk globally installed on Dardel is 9.4.15. How to build and make a local install of the newer version 9.6.8?
+As of 20250117, the most recent version of Elk globally installed on Dardel is 10.0.15. How to build and make a local install of the newer version 10.2.4?
 
-- First make a local installation of Elk 9.4.15. Why is the `--rebuild` flag needed?
+- First make a local installation of Elk 10.0.15. Why is the `--rebuild` flag needed?
 
 ```
 ml PDC/23.12 easybuild-user/4.9.1
-eb elk-9.5.14-cpeGNU-23.12.eb --robot --rebuild
+eb elk-10.0.15-cpeGNU-23.12.eb --robot --rebuild
 ```
 
-- Use the easyfonfig `elk-9.5.14-cpeGNU-23.12.eb` as a template to construct a file `elk-9.6.8-cpeGNU-23.12.eb`. Then build and install locally with `eb elk-9.6.8-cpeGNU-23.12.eb --robot`.
+- Use the easyfonfig `elk-10.0.15-cpeGNU-23.12.eb` as a template to construct a file `elk-10.2.4-cpeGNU-23.12.eb`. Then build and install locally with `eb elk-10.2.4-cpeGNU-23.12.eb --robot`.
 
 Reference page: [Installing software using EasyBuild](https://www.pdc.kth.se/support/documents/software_development/easybuild.html)
 
